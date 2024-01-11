@@ -1,0 +1,3 @@
+# CSUF Course Scraper
+
+WIP
