@@ -1,46 +1,17 @@
-use reqwest;
-use scraper;
+use askama::Template; // bring trait in scope
+mod scrape;
 
-struct Course {
-    title: Option<String>,
-    description: Option<String>,
-    prerequisites: Option<Vec<String>>,
-    corequisites: Option<Vec<String>>,
+#[derive(Template)] // this will generate the code...
+#[template(path = "hello.html")] // using the template in this path, relative
+                                 // to the `templates` dir in the crate root
+struct HelloTemplate<'a> {
+    // the name of the struct can be anything
+    name: &'a str, // the field name should match the variable name
+                   // in your template
 }
 
 fn main() {
-    let response = reqwest::blocking::get(
-        "https://catalog.fullerton.edu/preview_program.php?catoid=80&poid=38156&returnto=11049",
-    );
-    let html_content = response.unwrap().text().unwrap();
-
-    let document = scraper::Html::parse_document(&html_content);
-
-    let html_product_selector = scraper::Selector::parse("li.acalog-course").unwrap();
-    let html_courses = document.select(&html_product_selector);
-
-    let mut courses: Vec<Course> = Vec::new();
-
-    for html_course in html_courses {
-        let title = html_course
-            .select(&scraper::Selector::parse("span").unwrap())
-            .next()
-            .map(|h2| h2.text().collect::<String>());
-
-        let course = Course {
-            title,
-            description: Some(String::from("My description")),
-            prerequisites: Some(Vec::new()),
-            corequisites: Some(Vec::new()),
-        };
-
-        courses.push(course);
-    }
-
-    for course in courses {
-        println!("Course Title: {:?}", course.title);
-        println!("Course Description: {:?}", course.description);
-        println!("Course Prerequisites: {:?}", course.prerequisites);
-        println!("Course Corerequisites: {:?}", course.corequisites);
-    }
+    scrape::scrape();
+    let hello = HelloTemplate { name: "world" }; // instantiate your struct
+    println!("{}", hello.render().unwrap()); // then render it.
 }
