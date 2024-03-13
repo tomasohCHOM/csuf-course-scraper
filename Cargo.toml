@@ -9,3 +9,4 @@ edition = "2021"
 askama = "0.12.1"
 reqwest = { version = "0.11.23", features = ["blocking"] }
 scraper = "0.18.1"
+thirtyfour = "0.31.0"
