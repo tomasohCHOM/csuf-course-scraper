@@ -11,6 +11,15 @@
     <nav>
       <h1>CSUF CPSC Course Scraper</h1>
     </nav>
+    <main>
+      <div>
+        {{ range .Courses }}
+          <div>
+            {{ .Title }}
+          </div>
+        {{ end }}
+      </div>
+    </main>
   </body>
 </html>
 {{ end }}

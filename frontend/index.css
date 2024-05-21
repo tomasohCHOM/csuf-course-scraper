@@ -1,3 +1,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	--ff-general: "Poppins", sans-serif;
+	--color-primary: 26, 33, 37;
+	--color-secondary: 45, 50, 55;
+	--color-contrast-muted: 51, 65, 85;
+	--color-contrast: 187, 204, 230;
+
+	color-scheme: light dark;
+	background-color: rgb(var(--color-primary));
+	color: rgb(var(--color-contrast));
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	transition: all 0.125s linear;
+}
+
+body {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	font-family: var(--ff-general);
+}
+
+footer {
+	margin-block-start: auto;
+	margin-block-end: 1.5rem;
+}
+
