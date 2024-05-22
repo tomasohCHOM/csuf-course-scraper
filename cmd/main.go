@@ -33,6 +33,7 @@ func createTemplate() *Templates {
 
 func main() {
 	e := echo.New()
+	e.Static("/", "static")
 	e.Use(middleware.Logger())
 	e.Renderer = createTemplate()
 
