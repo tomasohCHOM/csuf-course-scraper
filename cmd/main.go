@@ -10,6 +10,8 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
+var WEBSITE_LINK = "https://catalog.fullerton.edu/preview_program.php?catoid=80&poid=38156&returnto=11049"
+
 type Course struct {
 	Title          string
 	Description    string
@@ -51,13 +53,14 @@ func main() {
 		courses = append(courses, course)
 	})
 
-	data := struct{ Courses []Course }{Courses: courses}
-
-	e.GET("/", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "index.html", data)
+	c.OnScraped(func(r *colly.Response) {
+		data := struct{ Courses []Course }{Courses: courses}
+		e.GET("/", func(c echo.Context) error {
+			return c.Render(http.StatusOK, "index.html", data)
+		})
 	})
 
 	// Visit the CSUF CPSC Catalog website
-	c.Visit("https://catalog.fullerton.edu/preview_program.php?catoid=80&poid=38156&returnto=11049")
+	c.Visit(WEBSITE_LINK)
 	e.Logger.Fatal(e.Start(":3000"))
 }
