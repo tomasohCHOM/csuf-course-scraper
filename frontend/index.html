@@ -4,15 +4,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/static/globals.css" rel="stylesheet" />
+    <link href="/static/output.css" rel="stylesheet" />
     <title>CSUF CPSC Course Scraper</title>
   </head>
   <body>
     <nav>
-      <h1 class="font-semibold text-red-300">CSUF CPSC Course Scraper</h1>
+      <h1 class="font-semibold text-2xl">CSUF CPSC Course Scraper</h1>
     </nav>
     <main>
-      <div>
+      <div class="font-medium text-xl">
         {{ range .Courses }}
           <div>
             {{ .Title }}
