@@ -37,5 +37,6 @@ func main() {
 		}
 		return c.Render(http.StatusOK, "index.html", []int{})
 	})
+
 	e.Logger.Fatal(e.Start(":3000"))
 }

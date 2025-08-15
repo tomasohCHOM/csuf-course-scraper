@@ -1,22 +1,79 @@
 {{ block "index" . }}
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/static/globals.css" rel="stylesheet" />
+    <title>CSUF CPSC Course Scraper</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="/static/output.css" rel="stylesheet" />
-  <title>CSUF CPSC Course Scraper</title>
-</head>
+  <body>
+    <main>
+      <h1>CSUF Course Scraper</h1>
+      <p>Search for any courses at California State University, Fullerton.</p>
+      <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search Courses" />
+        <button class="search-btn">Search</button>
+      </div>
+    </main>
+  </body>
 
-<body>
-  <nav>
-    <h1 class="font-semibold text-2xl">CSUF CPSC Course Scraper</h1>
-  </nav>
-  <main>
-    Nothing to see yet!
-  </main>
-</body>
+  <style>
+    h1 {
+      font-size: 2.25rem;
+    }
 
+    p {
+      font-size: 1.25rem;
+    }
+
+    main {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    main > h1,
+    main > p {
+      text-align: center;
+    }
+
+    .search-container {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .search-input,
+    .search-btn {
+      outline: none;
+      border: none;
+      border-radius: 1.125rem;
+    }
+
+    .search-container > .search-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background-color: var(--color-secondary);
+      color: var(--color-contrast);
+      font-size: 1.0625rem;
+    }
+
+    .search-container > .search-btn {
+      background-color: var(--color-contrast-muted);
+      color: var(--color-contrast);
+      padding-inline: 0.5rem;
+      font-weight: 600;
+      width: 6rem;
+      cursor: pointer;
+      transition: filter 150ms ease-in;
+    }
+
+    .search-container > .search-btn:hover {
+      filter: brightness(1.125);
+    }
+  </style>
 </html>
 {{ end }}
