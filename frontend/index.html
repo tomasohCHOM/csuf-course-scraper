@@ -1,79 +1,92 @@
 {{ block "index" . }}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/static/globals.css" rel="stylesheet" />
-    <title>CSUF CPSC Course Scraper</title>
-  </head>
+  <!doctype html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js"></script>
+      <link href="/static/globals.css" rel="stylesheet" />
+      <title>CSUF CPSC Course Scraper</title>
+    </head>
 
-  <body>
-    <main>
-      <h1>CSUF Course Scraper</h1>
-      <p>Search for any courses at California State University, Fullerton.</p>
-      <div class="search-container">
-        <input type="text" class="search-input" placeholder="Search Courses" />
-        <button class="search-btn">Search</button>
-      </div>
-    </main>
-  </body>
+    <body>
+      <main>
+        <h1>CSUF Course Scraper</h1>
+        <p>Search for any courses at California State University, Fullerton.</p>
+        <form
+          hx-get="/course"
+          hx-target="#course-result"
+          hx-swap="innerHTML"
+          class="search-container"
+        >
+          <input
+            type="text"
+            name="q"
+            class="search-input"
+            placeholder="Search Courses"
+          />
+          <button class="search-btn">Search</button>
+        </form>
 
-  <style>
-    h1 {
-      font-size: 2.25rem;
-    }
+        <div id="course-result">{{ template "course.html" . }}</div>
+      </main>
+    </body>
 
-    p {
-      font-size: 1.25rem;
-    }
+    <style>
+      h1 {
+        font-size: 2.25rem;
+      }
 
-    main {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 1rem;
-    }
+      p {
+        font-size: 1.25rem;
+      }
 
-    main > h1,
-    main > p {
-      text-align: center;
-    }
+      main {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+      }
 
-    .search-container {
-      display: flex;
-      gap: 0.5rem;
-    }
+      main > h1,
+      main > p {
+        text-align: center;
+      }
 
-    .search-input,
-    .search-btn {
-      outline: none;
-      border: none;
-      border-radius: 1.125rem;
-    }
+      .search-container {
+        display: flex;
+        gap: 0.5rem;
+      }
 
-    .search-container > .search-input {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      background-color: var(--color-secondary);
-      color: var(--color-contrast);
-      font-size: 1.0625rem;
-    }
+      .search-input,
+      .search-btn {
+        outline: none;
+        border: none;
+        border-radius: 1.125rem;
+      }
 
-    .search-container > .search-btn {
-      background-color: var(--color-contrast-muted);
-      color: var(--color-contrast);
-      padding-inline: 0.5rem;
-      font-weight: 600;
-      width: 6rem;
-      cursor: pointer;
-      transition: filter 150ms ease-in;
-    }
+      .search-container > .search-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background-color: var(--color-secondary);
+        color: var(--color-contrast);
+        font-size: 1.0625rem;
+      }
 
-    .search-container > .search-btn:hover {
-      filter: brightness(1.125);
-    }
-  </style>
-</html>
+      .search-container > .search-btn {
+        background-color: var(--color-contrast-muted);
+        color: var(--color-contrast);
+        padding-inline: 0.5rem;
+        font-weight: 600;
+        width: 6rem;
+        cursor: pointer;
+        transition: filter 150ms ease-in;
+      }
+
+      .search-container > .search-btn:hover {
+        filter: brightness(1.125);
+      }
+    </style>
+  </html>
 {{ end }}

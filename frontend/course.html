@@ -1,0 +1,25 @@
+{{ define "course.html" }}
+  {{ if . }}
+    <div class="course-container">
+      <h2>{{ .Title }}</h2>
+    </div>
+  {{ else }}
+    <p>No course loaded yet.</p>
+  {{ end }}
+
+
+  <style>
+    .course-container {
+      margin-block-start: 2rem;
+      background-color: var(--color-secondary);
+      padding: 1.5rem 2rem;
+      border-radius: 1.25rem;
+      min-height: 200px;
+    }
+
+    .course-container > h2 {
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+  </style>
+{{ end }}

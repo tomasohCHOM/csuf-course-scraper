@@ -1,10 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"io"
-	"log"
 	"net/http"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -31,11 +32,27 @@ func main() {
 	e.Renderer = createTemplate()
 
 	e.GET("/", func(c echo.Context) error {
-		err := SearchCourses("CPSC+240")
-		if err != nil {
-			log.Fatal(err)
+		return c.Render(http.StatusOK, "index.html", nil)
+	})
+
+	e.GET("/course", func(c echo.Context) error {
+		query := c.QueryParam("q")
+		if query == "" {
+			return c.String(http.StatusBadRequest, "Missing query")
 		}
-		return c.Render(http.StatusOK, "index.html", []int{})
+
+		queryContents := strings.Split(query, " ")
+		if len(queryContents) > 2 {
+			return c.String(http.StatusBadRequest, "Invalid query string")
+		}
+		parsedQuery := strings.Join(queryContents, "+")
+		fmt.Println(parsedQuery)
+
+		course, err := SearchCourses(parsedQuery)
+		if err != nil {
+			return c.String(http.StatusInternalServerError, "Failed to fetch course")
+		}
+		return c.Render(http.StatusOK, "course.html", course)
 	})
 
 	e.Logger.Fatal(e.Start(":3000"))
