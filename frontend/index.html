@@ -15,7 +15,8 @@
         <p>Search for any courses at California State University, Fullerton.</p>
         <form
           hx-get="/course"
-          hx-target="#course-result"
+          hx-target="#course-swap"
+          hx-indicator="#course-loading"
           hx-swap="innerHTML"
           class="search-container"
         >
@@ -28,17 +29,25 @@
           <button class="search-btn">Search</button>
         </form>
 
-        <div id="course-result">{{ template "course.html" . }}</div>
+        <div id="course-result">
+          <p id="course-loading" class="htmx-indicator">Loading...</p>
+          <div id="course-swap"></div>
+        </div>
       </main>
     </body>
+
+    <script>
+      document.body.addEventListener("htmx:beforeRequest", function (evt) {
+        const target = document.querySelector("#course-swap");
+        if (target) {
+          target.innerHTML = ""; // clear previous result
+        }
+      });
+    </script>
 
     <style>
       h1 {
         font-size: 2.25rem;
-      }
-
-      p {
-        font-size: 1.25rem;
       }
 
       main {
@@ -89,6 +98,16 @@
 
       .search-container > .search-btn:hover {
         filter: brightness(1.125);
+      }
+
+      .htmx-indicator {
+        display: block;
+      }
+      #course-loading.htmx-indicator {
+        display: none;
+      }
+      #course-loading.htmx-request {
+        display: block;
       }
     </style>
   </html>
