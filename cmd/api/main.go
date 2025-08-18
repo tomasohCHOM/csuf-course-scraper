@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"io"
 	"net/http"
@@ -25,6 +24,12 @@ func createTemplate() *Templates {
 	}
 }
 
+func renderCourseError(c echo.Context, msg string) error {
+	return c.Render(http.StatusOK, "course.html", map[string]any{
+		"Error": msg,
+	})
+}
+
 func main() {
 	e := echo.New()
 	e.Static("/static", "static")
@@ -38,26 +43,20 @@ func main() {
 	e.GET("/course", func(c echo.Context) error {
 		query := c.QueryParam("q")
 		if query == "" {
-			return c.Render(http.StatusBadRequest, "course.html", map[string]any{
-				"Error": "Query must be non-empty",
-			})
+			return renderCourseError(c, "Query must be non-empty")
 		}
 
-		queryContents := strings.Split(query, " ")
-		if len(queryContents) > 2 {
-			return c.Render(http.StatusBadRequest, "course.html", map[string]any{
-				"Error": "Invalid query string.",
-			})
+		parts := strings.Fields(query)
+		if len(parts) > 2 {
+			return renderCourseError(c, "Invalid query string")
 		}
-		parsedQuery := strings.Join(queryContents, "+")
-		fmt.Println(parsedQuery)
 
+		parsedQuery := strings.ToUpper(strings.Join(parts, "+"))
 		course, err := SearchCourse(parsedQuery)
 		if err != nil {
-			return c.Render(http.StatusInternalServerError, "course.html", map[string]any{
-				"Error": "Error fetching course data. Try again later.",
-			})
+			return renderCourseError(c, err.Error())
 		}
+
 		return c.Render(http.StatusOK, "course.html", map[string]any{
 			"Course": course,
 		})

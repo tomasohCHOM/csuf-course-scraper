@@ -10,7 +10,8 @@
         <p><b>Corequisites:</b> {{ .Course.Corequisites }}</p>
       {{ end }}
     </div>
-  {{ else if .Error }}
+  {{ end }}
+  {{ if .Error }}
     <p>{{ .Error }}</p>
   {{ end }}
 
