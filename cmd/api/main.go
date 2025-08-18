@@ -38,21 +38,29 @@ func main() {
 	e.GET("/course", func(c echo.Context) error {
 		query := c.QueryParam("q")
 		if query == "" {
-			return c.String(http.StatusBadRequest, "Missing query")
+			return c.Render(http.StatusBadRequest, "course.html", map[string]any{
+				"Error": "Query must be non-empty",
+			})
 		}
 
 		queryContents := strings.Split(query, " ")
 		if len(queryContents) > 2 {
-			return c.String(http.StatusBadRequest, "Invalid query string")
+			return c.Render(http.StatusBadRequest, "course.html", map[string]any{
+				"Error": "Invalid query string.",
+			})
 		}
 		parsedQuery := strings.Join(queryContents, "+")
 		fmt.Println(parsedQuery)
 
-		course, err := SearchCourses(parsedQuery)
+		course, err := SearchCourse(parsedQuery)
 		if err != nil {
-			return c.String(http.StatusInternalServerError, "Failed to fetch course")
+			return c.Render(http.StatusInternalServerError, "course.html", map[string]any{
+				"Error": "Error fetching course data. Try again later.",
+			})
 		}
-		return c.Render(http.StatusOK, "course.html", course)
+		return c.Render(http.StatusOK, "course.html", map[string]any{
+			"Course": course,
+		})
 	})
 
 	e.Logger.Fatal(e.Start(":3000"))

@@ -1,10 +1,17 @@
 {{ define "course.html" }}
-  {{ if . }}
+  {{ if .Course }}
     <div class="course-container">
-      <h2>{{ .Title }}</h2>
+      <h2>{{ .Course.Title }}</h2>
+      <p>{{ .Course.Description }}</p>
+      {{ if .Course.Prerequisites }}
+        <p><b>Prerequisites:</b> {{ .Course.Prerequisites }}</p>
+      {{ end }}
+      {{ if .Course.Corequisites }}
+        <p><b>Corequisites:</b> {{ .Course.Corequisites }}</p>
+      {{ end }}
     </div>
-  {{ else }}
-    <p>No course loaded yet.</p>
+  {{ else if .Error }}
+    <p>{{ .Error }}</p>
   {{ end }}
 
 
@@ -15,11 +22,18 @@
       padding: 1.5rem 2rem;
       border-radius: 1.25rem;
       min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
 
     .course-container > h2 {
       font-weight: 600;
       font-size: 1.25rem;
+    }
+
+    .course-container > p {
+      font-size: 1.0625rem;
     }
   </style>
 {{ end }}
